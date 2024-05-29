@@ -1,5 +1,7 @@
 import { Printer, Image, BitmapDensity } from "@node-escpos/core";
 import USB from "@node-escpos/usb-adapter";
+import { ExtendedPrinter } from "./ExtendedPrinter";
+
 
 (async () => {
 
@@ -15,15 +17,10 @@ import USB from "@node-escpos/usb-adapter";
     }
 
     console.log("Device opened successfully.");
-    const printer = new Printer(device, { encoding: "GB18030" });
-
-    printer.initialise = () => {
-        printer.buffer.write("\x1B@");
-        return printer;
-    };
+    const printer = new ExtendedPrinter(device);
     
     // Epson LX-350 compatible 9-pin ESC/P Escape Codes
-    styles = {
+    const styles = {
         "initialise": "\x1B@",
         "clear": "\x1B@",
         "dw": "\x1BW1",
@@ -39,7 +36,7 @@ import USB from "@node-escpos/usb-adapter";
         "bold_cancel": "\x1BF",
         "italic": "\x1B4",
         "italic_cancel": "\x1B5"
-        }
+    };
         
     
     printer.initialise()
