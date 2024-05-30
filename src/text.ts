@@ -1,4 +1,3 @@
-import { Printer, Image, BitmapDensity } from "@node-escpos/core";
 import { EpsonLX350CompatiblePrinter } from "./printing/EpsonLX350CompatiblePrinter";
 import { openUsbDevice, splitLines } from "./util";
 import { styles } from "./printing/configuration";

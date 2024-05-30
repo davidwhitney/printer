@@ -1,17 +1,16 @@
-import { EpsonLX350CompatiblePrinter } from "./EpsonLX350CompatiblePrinter"
 import sharp from 'sharp';
 import fetch from 'node-fetch'
 import { convert } from "html-to-text";
+import { EpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
+import { splitLines } from '../util';
 import { convert_options, styles } from "./configuration";
-import { splitLines } from "../util";
 import { Image } from "@node-escpos/core";
 
 export default async function printToot(printer: EpsonLX350CompatiblePrinter, contents: string) {
     var toot = JSON.parse(contents);
 
-    console.log(toot.account.display_name, toot.account.acct)
-    console.log(convert(toot.content, convert_options))
-
+    console.log(toot.account.display_name, toot.account.acct);
+    console.log(convert(toot.content, convert_options));
     console.log("\n\n🖨️ printing text portion");
 
     const convertedToot = convert(toot.content, convert_options);

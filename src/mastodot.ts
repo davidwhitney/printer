@@ -35,11 +35,11 @@ function process_message(msg) {
         case "update":
             disp(msg.data)
             //console.log(msg.data)
-            break
+            break;
         case "delete":
         case "status.update":
         default:
-            break
+            break;
     }
 }
 
