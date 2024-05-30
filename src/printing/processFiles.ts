@@ -26,16 +26,12 @@ export async function processFiles(printer: IEpsonLX350CompatiblePrinter) {
 
     for (const { file } of filesOlderThanTenSeconds) {
         try {
-            const filetype = file.split('.').pop();
+            const filetype = file.split('.').pop() || "txt";
             const contents = fs.readFileSync(`${OUTDIR}/${file}`, 'utf8');
 
             console.log(`Processing file: ${file}`);
-            console.log("Filetype: ", filetype);
-            console.log("Contents: ", contents);
 
-            filetype === "txt"
-                ? await printer.text(contents).flush()
-                : await printToot(printer, JSON.parse(contents));
+            await processSingleMessage(printer, filetype, contents);
 
         } catch (e) {
             console.error(`Error processing file ${file}: `, e);
@@ -43,5 +39,18 @@ export async function processFiles(printer: IEpsonLX350CompatiblePrinter) {
             fs.renameSync(`${OUTDIR}/${file}`, `${DONEDIR}/${file}`);
             console.log(`Moved file: ${OUTDIR}/${file} to ${DONEDIR}/${file}`);
         }
+    }
+}
+
+export async function processSingleMessage(printer: IEpsonLX350CompatiblePrinter, filetype: string, contents: string) {
+    console.log("Filetype: ", filetype);
+    console.log("Contents: ", contents);
+
+    try {
+        filetype === "txt"
+            ? await printer.text(contents).flush()
+            : await printToot(printer, JSON.parse(contents));
+    } catch (e) {
+        console.error(`Error processing message: `, e);
     }
 }

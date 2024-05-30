@@ -39,15 +39,14 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         throw new Error("Method not implemented.");
     }
     println(content: string): this {
-        console.log("DebuggingPrinter", content);
+        console.log("🖨️   DebuggingPrinter: ", content);
         return this;
     }
     newLine(count?: number): this {
         throw new Error("Method not implemented.");
     }
     text(content: string, encoding?: string): this {
-        this.buffer.write(content);
-        console.log("DebuggingPrinter", content);
+        console.log("🖨️   DebuggingPrinter: ", content);
         return this;
     }
     drawLine(character?: Buffer | string): this {

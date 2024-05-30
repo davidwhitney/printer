@@ -13,7 +13,7 @@ if (!accessToken) {
 
 await printText("Mastodot - The Mastodon Dot Matrix Printer\nBy Matt Gray | mattg.co.uk\n");
 
-const streamer = new MastodonStreamer(accessToken, ['emfcamp', 'emf2024', 'mastodot'])
+new MastodonStreamer(accessToken, ['emfcamp', 'emf2024', 'mastodot'])
     .start(saveEventsToDisk);
 
 async function saveEventsToDisk(eventType: string, msg: any) {
