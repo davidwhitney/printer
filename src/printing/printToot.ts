@@ -1,12 +1,12 @@
 import sharp from 'sharp';
 import fetch from 'node-fetch'
 import { convert } from "html-to-text";
-import { EpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
+import { IEpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
 import { splitLines } from '../util';
 import { convert_options, styles } from "./configuration";
 import { Image } from "@node-escpos/core";
 
-export default async function printToot(printer: EpsonLX350CompatiblePrinter, contents: string) {
+export default async function printToot(printer: IEpsonLX350CompatiblePrinter, contents: string) {
     var toot = JSON.parse(contents);
 
     console.log(toot.account.display_name, toot.account.acct);

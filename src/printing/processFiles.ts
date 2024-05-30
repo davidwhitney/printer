@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { EpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
+import { IEpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
 import { DONEDIR, OUTDIR } from '../util';
 import printToot from './printToot';
 
-export async function processFiles(printer: EpsonLX350CompatiblePrinter) {
+export async function processFiles(printer: IEpsonLX350CompatiblePrinter) {
     const now = new Date().getTime();
 
     const filenames = fs.readdirSync(OUTDIR);
@@ -15,6 +15,12 @@ export async function processFiles(printer: EpsonLX350CompatiblePrinter) {
     const filesOlderThanTenSeconds = fileNamesAndStats.filter(({ stats }) => {
         return now > new Date(stats.ctime).getTime() + 10000
     });
+
+    console.log(`${new Date().toISOString()}: Found ${filesOlderThanTenSeconds.length} files older than 10 seconds to process.`);
+
+    if (filesOlderThanTenSeconds.length === 0) {
+        return;
+    }
 
     printer.initialise();
 

@@ -1,7 +1,12 @@
 import { BitmapDensity, Printer, Image } from "@node-escpos/core";
 import { Adapter } from "@node-escpos/adapter";
 
-export class EpsonLX350CompatiblePrinter extends Printer<[]> {
+export interface IEpsonLX350CompatiblePrinter extends Printer<[]> {
+    initialise(): void;
+    imageWithLineSpacing(image: Image, density?: BitmapDensity | undefined): Promise<void>;
+}
+
+export class EpsonLX350CompatiblePrinter extends Printer<[]> implements IEpsonLX350CompatiblePrinter {
     constructor(adapter: Adapter<[]>) {
         super(adapter, { encoding: "GB18030" });
         this.initialise();
@@ -26,5 +31,4 @@ export class EpsonLX350CompatiblePrinter extends Printer<[]> {
 
         this.lineSpace = defaultLineSpace;
     }
-
 }

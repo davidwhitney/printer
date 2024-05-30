@@ -1,22 +1,37 @@
-import { EpsonLX350CompatiblePrinter } from './printing/EpsonLX350CompatiblePrinter';
+import { EpsonLX350CompatiblePrinter, IEpsonLX350CompatiblePrinter } from './printing/EpsonLX350CompatiblePrinter';
 import { initialiseFileSystem, openUsbDevice } from './util';
 import { processFiles } from './printing/processFiles';
+import DebuggingPrinter from './printing/DebuggingPrinter';
+import USBAdapter from '@node-escpos/usb-adapter';
 
 console.log("-----------------------------");
-console.log("🖨️       It's printing time!");
+console.log("🖨️    It's printing time!    ");
 console.log("-----------------------------");
 
 initialiseFileSystem();
 
-const device = await openUsbDevice();
-const printer = new EpsonLX350CompatiblePrinter(device);
+let device: USBAdapter;
+let printer: IEpsonLX350CompatiblePrinter;
+
+try {
+    device = await openUsbDevice();
+    printer = new EpsonLX350CompatiblePrinter(device);
+} catch (e) {
+    console.error(`Error opening device because '${e.message}', using debugging stub...`);
+    printer = new DebuggingPrinter();
+}
 
 await printer.text("MastoPrint Started").flush();
 
-while (true) {
+async function startProcessing() {
     await processFiles(printer);
-    await new Promise(r => setTimeout(r, 5000));
+    setTimeout(startProcessing, 5000);
 }
 
-printer.feed().close();
-device.close();
+startProcessing();
+
+process.on('SIGINT', () => {
+    printer?.feed().close();
+    device?.close();
+    process.exit();
+});
