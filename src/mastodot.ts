@@ -2,6 +2,7 @@ import 'dotenv/config'
 import Mastodon from 'mastodon-api'
 import * as fs from 'node:fs';
 import { OUTDIR } from './util';
+import { Toot } from './types';
 
 // you need a .env file with ACCESS_TOKEN="youraccesstoken" in it
 const M = new Mastodon({
@@ -59,7 +60,7 @@ function process_error(err) {
     console.log('error', err)
 }
 
-function disp(toot) {
+function disp(toot: Toot) {
     var atts = ""
     if (toot.media_attachments.length > 0) {
         for (const att of toot.media_attachments) {
@@ -76,7 +77,7 @@ function disp(toot) {
 }
 
 // saves toot object as json string to out folder as .json file
-function print_toot(toot) {
+function print_toot(toot: Toot) {
     fs.writeFile(`${OUTDIR}/${Date.now()}.json`, JSON.stringify(toot), err => {
         if (err) {
             console.error(err);

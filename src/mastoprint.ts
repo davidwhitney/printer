@@ -13,8 +13,13 @@ const { device, printer } = await connectToPrinter();
 await printer.text("MastoPrint Started").flush();
 
 async function startProcessing() {
-    await processFiles(printer);
-    setTimeout(startProcessing, 5000);
+    try {
+        await processFiles(printer);
+    } catch (e) {
+        console.error("Error processing files: ", e);
+    } finally {
+        setTimeout(startProcessing, 5000);
+    }
 }
 
 startProcessing();
