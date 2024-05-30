@@ -1,25 +1,6 @@
 import fs from 'fs';
-import USB from "@node-escpos/usb-adapter";
-
 export const OUTDIR = './out';
 export const DONEDIR = './done';
-
-export async function openUsbDevice(): Promise<USB> {
-    const device = new USB();
-
-    return await new Promise((resolve, reject) => {
-        device.open((err) => {
-            if (err) {
-                console.error("Error opening device:", err);
-                reject(err);
-                return;
-            }
-
-            console.log("Device opened successfully.");
-            resolve(device);
-        });
-    });
-}
 
 export function initialiseFileSystem() {
     if (!fs.existsSync(OUTDIR)) {

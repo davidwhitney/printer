@@ -1,11 +1,10 @@
-import { EpsonLX350CompatiblePrinter } from "./printing/EpsonLX350CompatiblePrinter";
-import { openUsbDevice, splitLines } from "./util";
+import { splitLines } from "./util";
 import { styles } from "./printing/configuration";
+import { connectToPrinter } from "./printing/connectToPrinter";
 
 console.log("It's printing time!");
 
-const device = await openUsbDevice();
-const printer = new EpsonLX350CompatiblePrinter(device);
+const { device, printer } = await connectToPrinter();
 
 printer
     .lineSpace(48)
@@ -28,5 +27,5 @@ printer
     .close();
 
 
-device.close();
+device?.close();
 
