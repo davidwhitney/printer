@@ -14,3 +14,11 @@ export interface MediaAttachment {
     description: string,
     preview_url: string
 }
+
+export interface MastodonEvent {
+    req: {
+        path: string;
+    }
+    event: any;
+    data: Toot;
+}
