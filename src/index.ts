@@ -1,9 +1,9 @@
 import 'dotenv/config'
 import MastodonStreamer from './toots/MastodonStreamer';
-import { MastodonEvent } from './types';
 import { connectToPrinter } from './printing/connectToPrinter';
 import { processSingleMessage } from './printing/processFiles';
 import InMemoryPrintQueue from './printing/inMemoryPrintQueue';
+import { Entity } from 'megalodon';
 
 console.log("-----------------------------");
 console.log("🖨️    It's printing time!    ");
@@ -22,19 +22,13 @@ const streamer = new MastodonStreamer(accessToken, ['emfcamp', 'emf2024', 'masto
 queue.push("MastoPrint Started");
 queue.push("Mastodot - The Mastodon Dot Matrix Printer\nBy Matt Gray | mattg.co.uk\n");
 
-streamer.start((eventType: string, msg: MastodonEvent) => {
-    console.log("Received", eventType, msg);
-
-    if (eventType === 'connected') {
-        queue.push('connected ' + msg.req.path);
-    }
-
-    if (eventType === 'message' && msg.event === 'update') {
-        queue.push(msg.data);
-    }
+streamer.start((msg: Entity.Status) => {
+    console.log("Received", msg.account.display_name, msg.content);
+    queue.push(msg);
 });
 
 queue.processQueue(async (filetype: string, contents: string) => {
+    console.log("Processing message", filetype, contents);
     await processSingleMessage(printer, filetype, contents);
 });
 

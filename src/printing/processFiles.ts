@@ -49,7 +49,7 @@ export async function processSingleMessage(printer: IEpsonLX350CompatiblePrinter
     try {
         filetype === "txt"
             ? await printer.text(contents).flush()
-            : await printToot(printer, JSON.parse(contents));
+            : await printToot(printer, contents);
     } catch (e) {
         console.error(`Error processing message: `, e);
     }

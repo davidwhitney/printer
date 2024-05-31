@@ -1,13 +1,13 @@
-import { Toot } from "../types";
+import { Entity } from "megalodon";
 
 export default class InMemoryPrintQueue {
-    private queue: (string | Toot)[] = [];
+    private queue: (string | Entity.Status)[] = [];
 
     constructor() {
         this.queue = [];
     }
 
-    public push(item: string | Toot) {
+    public push(item: string | Entity.Status) {
         this.queue.push(item);
     }
 

@@ -4,6 +4,6 @@
         "module": "esnext",
         "sourceMap": true,
         "outDir": "dist",
-        "lib": ["dom", "dom.iterable", "esnext"]
+        "lib": ["dom", "dom.iterable", "esnext", "vitest"]
     }
 }

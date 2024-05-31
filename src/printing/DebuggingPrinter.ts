@@ -50,7 +50,8 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         return this;
     }
     drawLine(character?: Buffer | string): this {
-        throw new Error("Method not implemented.");
+        console.log("🖨️   DebuggingPrinter: --------------------");
+        return this;
     }
     table(data: (string | number)[], encoding?: string): this {
         throw new Error("Method not implemented.");
@@ -59,7 +60,8 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         throw new Error("Method not implemented.");
     }
     pureText(content: string, encoding?: string): this {
-        throw new Error("Method not implemented.");
+        console.log("🖨️   DebuggingPrinter: ", content);
+        return this;
     }
     encode(encoding: string): this {
         throw new Error("Method not implemented.");
@@ -93,7 +95,7 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         throw new Error("Method not implemented.");
     }
     lineSpace(n?: number | null): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     hardware(hw: HardwareCommand): this {
         throw new Error("Method not implemented.");
@@ -124,7 +126,7 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         return Promise.resolve(this);
     }
     cut(partial?: boolean, feed?: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     close(): Promise<this> {
         return Promise.resolve(this);

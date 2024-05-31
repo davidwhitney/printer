@@ -5,10 +5,16 @@ import { IEpsonLX350CompatiblePrinter } from './EpsonLX350CompatiblePrinter';
 import { splitLines } from '../util';
 import { convert_options, styles } from "./configuration";
 import { Image } from "@node-escpos/core";
-import { MediaAttachment, Toot } from '../types';
+import { Entity } from 'megalodon';
+import { Attachment } from 'megalodon/lib/src/entities/attachment';
+import fs from 'fs';
+
+if (!fs.existsSync("./tmp")) {
+    fs.mkdirSync("./tmp");
+}
 
 export default async function printToot(printer: IEpsonLX350CompatiblePrinter, contents: string) {
-    const toot = <Toot>JSON.parse(contents);
+    const toot = <Entity.Status>JSON.parse(contents);
 
     console.log(toot.account.display_name, toot.account.acct);
     console.log(convert(toot.content, convert_options));
@@ -42,20 +48,20 @@ export default async function printToot(printer: IEpsonLX350CompatiblePrinter, c
 
     await processAttachments(printer, toot.media_attachments);
 
-    if (toot.poll == true) {
+    if (toot.poll) {
         printer.text("Toot contains a poll.");
     }
 
     await printer.text(toot.created_at).feed().flush();
 }
 
-async function processAttachments(printer: IEpsonLX350CompatiblePrinter, media_attachments: MediaAttachment[]) {
+async function processAttachments(printer: IEpsonLX350CompatiblePrinter, media_attachments: Attachment[]) {
     for (const [index, item] of media_attachments.entries()) {
         console.log(`\nNew Attachment ${index}: ${item.type}`)
         //console.log(item.preview_url)
         //console.log(item.description)
 
-        if (item.preview_url.length > 0) {
+        if (item.preview_url && item.preview_url.length > 0) {
             console.log(`Got Preview URL for att ${index}`)
             const img_fetched = await fetch(item.preview_url)
             const img_buffered = await img_fetched.arrayBuffer()
