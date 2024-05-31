@@ -1,19 +1,3 @@
-import fs from 'fs';
-export const OUTDIR = './out';
-export const DONEDIR = './done';
-
-export function initialiseFileSystem() {
-    if (!fs.existsSync(OUTDIR)) {
-        console.warn(`🚨 No ${OUTDIR} folder. Creating one now...`);
-        fs.mkdirSync(OUTDIR);
-    }
-
-    if (!fs.existsSync(DONEDIR)) {
-        console.warn(`🚨 No ${DONEDIR} folder. Creating one now...`);
-        fs.mkdirSync(DONEDIR);
-    }
-}
-
 /*
 * Ths function is taken from https://liza.io/splitting-text-into-lines-according-to-maximum-width-vertical-text-scroll-in-javascript-and-html5/
 * and has been slightly modified to output a string separated by newlines

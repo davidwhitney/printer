@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import MastodonStreamer from './toots/MastodonStreamer';
 import { connectToPrinter } from './printing/connectToPrinter';
-import { processSingleMessage } from './printing/processFiles';
+import { processSingleMessage } from './printing/processSingleMessage';
 import InMemoryPrintQueue from './printing/inMemoryPrintQueue';
 import { Entity } from 'megalodon';
 
