@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx ./src/index.ts",
-    "mastodot": "tsx ./src/mastodot.ts",
-    "mastoprint": "tsx ./src/mastoprint.ts",
+    "test": "vitest run",
     "imagetest": "tsx ./src/image.ts",
     "texttest": "tsx ./src/text.ts",
     "getToken": "tsx ./src/tools/getAuthToken.ts"

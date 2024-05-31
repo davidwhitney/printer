@@ -7,6 +7,8 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         super({} as any);
     }
 
+    public outputLines: string[] = [];
+
     adapter;
     buffer: MutableBuffer = new MutableBuffer();
     options: PrinterOptions | undefined;
@@ -15,111 +17,115 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
     _model: PrinterModel;
 
     model(model: PrinterModel): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     setCharacterCodeTable(codeTable: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     setCharset(charset?: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     marginBottom(size: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     marginLeft(size: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     setMarginLeft(size: number): Printer<[]> {
-        throw new Error("Method not implemented.");
+        return this;
     }
     marginRight(size: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     print(content: string | Buffer): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     println(content: string): this {
         console.log("🖨️   DebuggingPrinter: ", content);
+        this.outputLines.push(content);
         return this;
     }
     newLine(count?: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     text(content: string, encoding?: string): this {
         console.log("🖨️   DebuggingPrinter: ", content);
+        this.outputLines.push(content);
         return this;
     }
     drawLine(character?: Buffer | string): this {
         console.log("🖨️   DebuggingPrinter: --------------------");
+        this.outputLines.push("--------------------");
         return this;
     }
     table(data: (string | number)[], encoding?: string): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     tableCustom(data: CustomTableItem[], options?: CustomTableOptions): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     pureText(content: string, encoding?: string): this {
         console.log("🖨️   DebuggingPrinter: ", content);
+        this.outputLines.push(content);
         return this;
     }
     encode(encoding: string): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     feed(n?: number): this {
         return this;
     }
     control(ctrl: FeedControlSequence): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     align(align: Alignment): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     font(family: FontFamily): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     _getStyle(string: StyleString): string;
     _getStyle(bold: boolean, italic: boolean, underline: boolean | 0 | 1 | 2): string;
     _getStyle(bold: unknown, italic?: unknown, underline?: unknown): string {
-        throw new Error("Method not implemented.");
+        return "";
     }
     style(string: StyleString): this;
     style(bold: boolean, italic: boolean, underline: boolean | 0 | 1 | 2): this;
     style(bold: unknown, italic?: unknown, underline?: unknown): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     size(width: number, height: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     spacing(n?: number | null): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     lineSpace(n?: number | null): this {
         return this;
     }
     hardware(hw: HardwareCommand): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     barcode(code: number | string, type: BarcodeType, options: BarcodeOptions): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     qrcode(content: string, version?: number | undefined, level?: QRLevel | undefined, size?: number | undefined): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     qrimage(text: string, options?: QrImageOptions): Promise<this> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve(this);
     }
     image(image: Image, density?: BitmapDensity): Promise<this> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve(this);
     }
     raster(image: Image, mode?: RasterMode): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     cashdraw(pin?: 2 | 5): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     beep(n: number, t: number): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     flush(): Promise<this> {
         this.buffer.flush();
@@ -132,69 +138,69 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         return Promise.resolve(this);
     }
     color(color: 0 | 1): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     setReverseColors(reverse: boolean): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     raw(data: Buffer | string): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     getStatus(StatusClass: any): Promise<any> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve({});
     }
     getStatuses(): Promise<any[]> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve([]);
     }
     setTopLogoPrinting(kc1: number, kc2: number, align?: Alignment, space?: number): Printer<[]> {
-        throw new Error("Method not implemented.");
+        return this;
     }
     setBottomLogoPrinting(kc1: number, kc2: number, align?: Alignment): Printer<[]> {
-        throw new Error("Method not implemented.");
+        return this;
     }
     enableTopLogoPrinting(enable?: boolean): Printer<[]> {
-        throw new Error("Method not implemented.");
+        return this;
     }
     enableBottomLogoPrinting(enable?: boolean): Printer<[]> {
-        throw new Error("Method not implemented.");
+        return this;
     }
     starFullCut(): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     emphasize(): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     cancelEmphasize(): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     eventNames(): (string | symbol)[] {
-        throw new Error("Method not implemented.");
+        return [];
     }
     listeners<T extends string | symbol>(event: T): ((...args: any[]) => void)[] {
-        throw new Error("Method not implemented.");
+        return [];
     }
     listenerCount(event: string | symbol): number {
-        throw new Error("Method not implemented.");
+        return 0;
     }
     emit<T extends string | symbol>(event: T, ...args: any[]): boolean {
-        throw new Error("Method not implemented.");
+        return false;
     }
     on<T extends string | symbol>(event: T, fn: (...args: any[]) => void, context?: any): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     addListener<T extends string | symbol>(event: T, fn: (...args: any[]) => void, context?: any): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     once<T extends string | symbol>(event: T, fn: (...args: any[]) => void, context?: any): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     removeListener<T extends string | symbol>(event: T, fn?: ((...args: any[]) => void) | undefined, context?: any, once?: boolean): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     off<T extends string | symbol>(event: T, fn?: ((...args: any[]) => void) | undefined, context?: any, once?: boolean): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
     removeAllListeners(event?: string | symbol | undefined): this {
-        throw new Error("Method not implemented.");
+        return this;
     }
 }

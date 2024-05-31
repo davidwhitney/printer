@@ -1,6 +1,6 @@
 import DebuggingPrinter from "./DebuggingPrinter";
 import printToot from "./printToot";
-import { describe, beforeEach, it } from 'vitest';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('printToot', () => {
     let printer: DebuggingPrinter;
@@ -11,6 +11,9 @@ describe('printToot', () => {
 
     it('prints a toot', async () => {
         await printToot(printer, JSON.stringify(toot));
+
+        expect(printer.outputLines).toContain("Some User");
+        expect(printer.outputLines.some(l => l.includes("#testhashtag foo"))).toBe(true);
     });
 
 });
@@ -23,7 +26,7 @@ const toot = {
         "id": "109244461409790536",
         "username": "some_user",
         "acct": "some_user",
-        "display_name": "David Whitney",
+        "display_name": "Some User",
         "locked": false,
         "bot": false,
         "discoverable": true,
