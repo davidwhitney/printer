@@ -16,7 +16,7 @@ export default class MastodonStreamer {
         console.log(`MastodonStreamer created for ${this.hashTags}`);
     }
 
-    public async start(onEvent: (msg: Entity.Status) => void) {
+    public async startAsync(onEvent: (msg: Entity.Status) => void) {
         this.streams = [];
 
         for (const hashTag of this.hashTags) {
@@ -33,7 +33,7 @@ export default class MastodonStreamer {
         return this;
     }
 
-    public async stop() {
+    public stop() {
         console.log("Stopping Mastodon Streamer");
 
         for (const stream of this.streams) {

@@ -23,13 +23,13 @@ const streamer = new MastodonStreamer(instanceUrl, accessToken, ['emfcamp', 'emf
 queue.push("MastoPrint Started");
 queue.push("Mastodot - The Mastodon Dot Matrix Printer\nBy Matt Gray | mattg.co.uk\n");
 
-streamer.start((msg: Entity.Status) => {
-    console.log("Received", msg.account.display_name, msg.content);
-    queue.push(msg);
+queue.processQueueAsync(async (filetype: string, contents: string) => {
+    await processSingleMessage(printer, filetype, contents);
 });
 
-queue.processQueue(async (filetype: string, contents: string) => {
-    await processSingleMessage(printer, filetype, contents);
+streamer.startAsync((msg: Entity.Status) => {
+    console.log("Received", msg.account.display_name, msg.content);
+    queue.push(msg);
 });
 
 process.on('SIGINT', () => {

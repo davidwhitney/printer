@@ -11,21 +11,24 @@ export default class InMemoryPrintQueue {
         this.queue.push(item);
     }
 
-    public async processQueue(tryProcessSingleMessage: (filetype: string, contents: string) => Promise<void>) {
+    public async processQueueAsync(processMessageCallback: (filetype: string, contents: string) => Promise<void>) {
         while (this.queue.length > 0) {
             const item = this.queue.shift();
             const filetype = typeof item === "string" ? "txt" : "json";
             const content = typeof item === "string" ? item : JSON.stringify(item);
 
             try {
-                await tryProcessSingleMessage(filetype, content);
+                // This await is *very* important to make sure we don't
+                // run concurrent print jobs on the physical hardware
+
+                await processMessageCallback(filetype, content);
             } catch (e) {
                 console.error(`Error processing message: `, e);
             }
         }
 
         setTimeout(() => {
-            this.processQueue(tryProcessSingleMessage);
+            this.processQueueAsync(processMessageCallback);
         }, 5000);
     }
 }
