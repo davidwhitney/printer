@@ -18,7 +18,7 @@ export default async function printToot(printer: IEpsonLX350CompatiblePrinter, c
 
     console.log(toot.account.display_name, toot.account.acct);
     console.log(convert(toot.content, convert_options));
-    console.log("\n\n🖨️ printing text portion");
+    console.log("\n\n🖨️   Printing text portion");
 
     const convertedToot = convert(toot.content, convert_options);
     const asLines = splitLines(convertedToot, 83);

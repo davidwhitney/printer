@@ -17,7 +17,7 @@ if (!accessToken) {
 
 const queue = new InMemoryPrintQueue();
 const { device, printer } = await connectToPrinter();
-const streamer = new MastodonStreamer(accessToken, ['emfcamp', 'emf2024', 'mastodot']);
+const streamer = new MastodonStreamer("https://chaos.social", accessToken, ['emfcamp', 'emf2024', 'mastodot']);
 
 queue.push("MastoPrint Started");
 queue.push("Mastodot - The Mastodon Dot Matrix Printer\nBy Matt Gray | mattg.co.uk\n");
@@ -28,12 +28,12 @@ streamer.start((msg: Entity.Status) => {
 });
 
 queue.processQueue(async (filetype: string, contents: string) => {
-    console.log("Processing message", filetype, contents);
     await processSingleMessage(printer, filetype, contents);
 });
 
 process.on('SIGINT', () => {
     printer?.feed().close();
     device?.close();
+    streamer.stop();
     process.exit();
 });

@@ -1,42 +1,48 @@
 import 'dotenv/config'
 import { Entity, Mastodon } from 'megalodon'
+import Streaming from 'megalodon/lib/src/mastodon/web_socket';
 
 export default class MastodonStreamer {
-    private accessToken: string;
-    private apiURL: string;
     private hashTags: string[];
     private client: Mastodon;
 
-    private streams: any[] = [];
+    private streams: Streaming[];
 
-    constructor(accessToken: string, hashtags: string[], apiURL: string = "https://chaos.social") {
-        this.accessToken = accessToken;
+    constructor(apiURL: string, accessToken: string, hashtags: string[]) {
         this.hashTags = hashtags;
-        this.apiURL = apiURL;
-
-        this.client = new Mastodon(this.apiURL, this.accessToken);
-
-        console.log(`MastodonStreamer created with ${this.accessToken} and ${this.hashTags}`);
-
+        this.client = new Mastodon(apiURL, accessToken);
         this.streams = [];
+
+        console.log(`MastodonStreamer created for ${this.hashTags}`);
     }
 
     public async start(onEvent: (msg: Entity.Status) => void) {
-        console.log("Starting Mastodon Streamer");
-
         this.streams = [];
 
         for (const hashTag of this.hashTags) {
             console.log(`Starting stream for ${hashTag}`);
 
             const stream = await this.client.tagStreaming(hashTag);
-            stream.on('connect', () => { console.log('connected'); });
-            stream.on('close', () => { console.log('closed'); });
+            stream.on('connect', () => { console.log(`connected ${hashTag}`); });
+            stream.on('close', () => { console.log(`closed ${hashTag}`); });
             stream.on('update', async (msg: Entity.Status) => { onEvent(msg); });
             stream.on('parser-error', (msg: Error) => { console.error(msg); });
             this.streams.push(stream);
         }
 
+        return this;
+    }
+
+    public async stop() {
+        console.log("Stopping Mastodon Streamer");
+
+        for (const stream of this.streams) {
+            console.log(`Stopping stream with params: ${JSON.stringify(stream.params)}`);
+            stream.stop();
+            stream.removeAllListeners();
+        }
+
+        this.streams = [];
         return this;
     }
 }
