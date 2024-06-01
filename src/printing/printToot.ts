@@ -73,7 +73,7 @@ async function processAttachments(printer: IEpsonLX350CompatiblePrinter, media_a
 
             const image = await Image.load("tmp/image.png");
 
-            console.log(`Image loaded for att ${index}, size: ${image.size}`);
+            console.log(`Image loaded for att ${index}, size: ${image.size.width}x${image.size.height}`);
             console.log(`attempting to print image for att ${index}`)
 
             await printer.imageWithLineSpacing(image, "s8");

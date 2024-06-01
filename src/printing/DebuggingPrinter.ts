@@ -116,6 +116,7 @@ export default class DebuggingPrinter extends EpsonLX350CompatiblePrinter implem
         return Promise.resolve(this);
     }
     image(image: Image, density?: BitmapDensity): Promise<this> {
+        this.outputLines.push(`[image]${image.size.width}x${image.size.height}`);
         return Promise.resolve(this);
     }
     raster(image: Image, mode?: RasterMode): this {

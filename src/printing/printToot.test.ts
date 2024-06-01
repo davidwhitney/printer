@@ -1,3 +1,4 @@
+import { Entity } from "megalodon";
 import DebuggingPrinter from "./DebuggingPrinter";
 import printToot from "./printToot";
 import { describe, beforeEach, it, expect } from 'vitest';
@@ -16,9 +17,30 @@ describe('printToot', () => {
         expect(printer.outputLines.some(l => l.includes("#testhashtag foo"))).toBe(true);
     });
 
+    it('prints a toot with an image attachment resized down to 150px', async () => {
+        const tootWithImage = { ...toot };
+        tootWithImage.media_attachments = [
+            {
+                type: "image",
+                url: "https://picsum.photos/200/300",
+                preview_url: "https://picsum.photos/200/300",
+                description: "An image",
+                id: "123456789",
+                text_url: "https://picsum.photos",
+                remote_url: "https://picsum.photos/200/300",
+                blurhash: "abc",
+                meta: { width: 300, height: 200, size: "300" }
+            }
+        ];
+
+        await printToot(printer, JSON.stringify(tootWithImage));
+
+        expect(printer.outputLines.some(l => l.includes("[image]150x225"))).toBe(true);
+    });
+
 });
 
-const toot = {
+const toot: Entity.Status = {
     "id": "112538305048949033",
     "uri": "https://mastodon.social/users/some_user/statuses/112538305048949033",
     "url": "https://mastodon.social/@some_user/112538305048949033",
@@ -30,12 +52,10 @@ const toot = {
         "locked": false,
         "bot": false,
         "discoverable": true,
-        "indexable": false,
         "group": false,
         "created_at": "2022-10-28T00:00:00.000Z",
         "note": "<p>Note/p>",
         "url": "https://mastodon.social/@some_user",
-        "uri": "https://mastodon.social/users/some_user",
         "avatar": "https://files.mastodon.social/accounts/avatars/109/244/461/409/790/536/original/abc.jpg",
         "avatar_static": "https://files.mastodon.social/accounts/avatars/109/244/461/409/790/536/original/abc.jpg",
         "header": "https://files.mastodon.social/accounts/headers/109/244/461/409/790/536/original/abc.jpeg",
@@ -43,11 +63,8 @@ const toot = {
         "followers_count": 640,
         "following_count": 300,
         "statuses_count": 1000,
-        "last_status_at": "2024-05-31",
-        "hide_collections": false,
         "noindex": false,
         "emojis": [],
-        "roles": [],
         "fields": [
             {
                 "name": "Website",
@@ -64,7 +81,10 @@ const toot = {
                 "value": "some_user",
                 "verified_at": null
             }
-        ]
+        ],
+        "suspended": false,
+        "limited": false,
+        "moved": null
     },
     "in_reply_to_id": null,
     "in_reply_to_account_id": null,
@@ -97,5 +117,9 @@ const toot = {
     "language": "en",
     "emoji_reactions": [],
     "bookmarked": false,
-    "quote": false
+    "quote": false,
+    "pinned": false,
+    "reblogged": false,
+    "favourited": false,
+    "muted": false
 }
